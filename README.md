@@ -7,7 +7,13 @@ wget https://repo1.maven.org/maven2/org/soot-oss/soot/4.3.0/soot-4.3.0-jar-with-
 java -cp ../soot-4.3.0-jar-with-dependencies.jar soot.Main
 - For more instructions on how to use the command line options, follow this link:
 https://github.com/soot-oss/soot/wiki/Introduction:-Soot-as-a-command-line-tool
-- TL;DR : Command
+- TL;DR : Command to run
+java -cp ../soot-4.3.0-jar-with-dependencies.jar soot.Main -cp . -pp HelloWorld
+
+- Options (Add as arguments to the command line):
+    - To generate Jimple IR: -f J
+    - To generate Shimple IR: -f shimple
+
 
 
 # Useful Links
