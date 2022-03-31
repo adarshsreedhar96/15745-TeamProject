@@ -1,6 +1,10 @@
-class HelloWorld {
-    public static void main(String[] args){
+public class HelloWorld {
+    public void printMain(){
         int a = 10 + 20;
-        System.out.println(a);
+        if (a < 25) {
+            System.out.println(a);
+        } else {
+            System.out.println(a);
+        }
     }
 }
