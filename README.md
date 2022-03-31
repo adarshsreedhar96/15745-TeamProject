@@ -15,6 +15,18 @@ java -cp ../soot-4.3.0-jar-with-dependencies.jar soot.Main -cp . -pp HelloWorld
     - To generate Jimple IR: -f J
     - To generate Shimple IR: -f shimple
 
+- Steps to write a pass in soot-tutorial:
+1. Create a folder in demo, say "X"
+2. Inside it, have the actual java code of which you want to extract    information (Make sure to have the .class file as well)
+3. In src/main/java/dev/navids/soottutorial, create another folder, say x_analysis
+4. Create a java file inside it, say CheckXAnalysis. We write the pass code here 
+
+5. In the candidate CheckXAnalysis code:
+    a. create a package called package dev.navids.soottutorial.x_analysis; (basically the folder that you create in src/main/java/dev/navids/soottutorial)
+    b. Make note of the class name, (here its called CheckXAnalysis), and have a main method
+    c. In Main.java (src/main/java/dev/navids/soottutorial/Main.java) import the class CheckXAnalysis, and add an if block matching the ClassName, and if so
+    d. load the CheckXAnalysis.main method
+Now issue ./gradlew run --args="CheckXAnalysis"
 
 
 
