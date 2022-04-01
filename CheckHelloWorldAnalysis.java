@@ -7,11 +7,11 @@ import soot.G;
 import soot.Scene;
 import soot.options.Options;
 public class CheckHelloWorldAnalysis {
-    public static String sourceDirectory = System.getProperty("user.dir") + File.separator + "demo" + File.separator + "HelloWorld";
-    public static String className = "HelloWorld";
-    public static String methodName = "printMain";
+    //public static String sourceDirectory = System.getProperty("user.dir") + File.separator + "demo" + File.separator + "HelloWorld";
+    //public static String className = "HelloWorld";
+    //public static String methodName = "printMain";
 
-    public static void setupSoot() {
+    public static void setupSoot(String sourceDirectory, String className, String methodName) {
         // for some cleanup
         G.reset();
         Options.v().set_prepend_classpath(true);
@@ -23,7 +23,10 @@ public class CheckHelloWorldAnalysis {
     }
 
     public static void main(String[] args) {
-        setupSoot();
+        String sourceDirectory = args[0];
+        String className  = args[1];
+        String methodName = args[2];
+        setupSoot(sourceDirectory, className, methodName);
 
         // Retrieve HelloWorld's body
         SootClass mainClass = Scene.v().getSootClass(className);
