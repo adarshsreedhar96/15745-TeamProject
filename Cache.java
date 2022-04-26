@@ -7,8 +7,13 @@ public class Cache<K, V> {
     private int hitCount = 0;
     private int missCount = 0;
 
-    public Cache(int capacity) {
-        CAPACITY = capacity; //
+    // public Cache(int capacity) {
+    // CAPACITY = capacity; //
+    // map = new HashMap<>(CAPACITY);
+    // }
+
+    public Cache() {
+        CAPACITY = 100; //
         map = new HashMap<>(CAPACITY);
     }
 
