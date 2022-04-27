@@ -1,0 +1,38 @@
+    public java.lang.String getInfo(java.lang.String)
+    {
+        com.example.gateway.CacheTemp $r3, $r7;
+        com.example.gateway.Gateway $r9;
+        Gateway r5;
+        java.lang.Object $r4;
+        java.lang.String r0, $r1, $r2, $r6, r8;
+
+        r5 := @this: Gateway;
+
+        r0 := @parameter0: java.lang.String;
+
+        $r1 = <com.example.gateway.Gateway: java.lang.String url>;
+
+        $r2 = dynamicinvoke "makeConcatWithConstants" <java.lang.String (java.lang.String,java.lang.String)>($r1, r0) <java.lang.invoke.StringConcatFactory: java.lang.invoke.CallSite makeConcatWithConstants(java.lang.invoke.MethodHandles$Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object[])>("\u0001\u0001");
+
+        $r3 = <com.example.gateway.Gateway: com.example.gateway.CacheTemp cache>;
+
+        $r4 = virtualinvoke $r3.<com.example.gateway.CacheTemp: java.lang.Object get(java.lang.Object)>($r2);
+
+        r8 = (java.lang.String) $r4;
+
+        if r8 != null goto label1;
+
+        $r9 = (com.example.gateway.Gateway) r5;
+
+        $r6 = virtualinvoke $r9.<com.example.gateway.Gateway: java.lang.String getInfoCall(java.lang.String)>($r2);
+
+        r8 = $r6;
+
+        $r7 = <com.example.gateway.Gateway: com.example.gateway.CacheTemp cache>;
+
+        virtualinvoke $r7.<com.example.gateway.CacheTemp: void put(java.lang.Object,java.lang.Object)>($r2, $r6);
+
+     label1:
+        return r8;
+    }
+

@@ -22,6 +22,9 @@ public class Gateway {
 	public static final String ACCEPT_HEADER_KEY = "Accept";
 	public static final String ACCEPT_HEADER_VALUE = "application/json";
 
+	//private static CacheTemp<String, String> cache = new CacheTemp<>();
+	private static CacheTemp cache = new CacheTemp();
+
 	private HttpEntity<String> setHeaders() {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(ACCEPT_HEADER_KEY, ACCEPT_HEADER_VALUE);
@@ -31,7 +34,11 @@ public class Gateway {
 
 	public String getInfo(String id) {
 		String urlWithParam = url + id;
-		String response = getInfoCall(urlWithParam);
+		String response = (String)cache.get(urlWithParam);
+		if(response==null){
+			response = getInfoCall(urlWithParam);
+			cache.put(urlWithParam, response);
+		}
 		return response;
 	}
 
