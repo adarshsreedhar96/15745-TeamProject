@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Component
 public class Gateway {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	String url = "http://localhost:8081/info/";
+	private static String url = "http://localhost:8081/info/";
 
 	public static final String ACCEPT_HEADER_KEY = "Accept";
 	public static final String ACCEPT_HEADER_VALUE = "application/json";
@@ -29,11 +30,16 @@ public class Gateway {
 	}
 
 	public String getInfo(String id) {
+		String urlWithParam = url + id;
+		String response = getInfoCall(urlWithParam);
+		return response;
+	}
+
+	public String getInfoCall(String url) {
 		ResponseEntity<String> response = null;
 		try {
-			response = restTemplate.exchange(url + id, HttpMethod.GET, setHeaders(), String.class);
-			String info = response.getBody();
-			return info;
+			response = restTemplate.exchange(url, HttpMethod.GET, setHeaders(), String.class);
+			return response.getBody();
 		} catch (HttpClientErrorException e) {
 			System.out.println("Client error occurred (4xx) with message: " + e.getMessage());
 			throw e;
