@@ -7,6 +7,9 @@ import soot.Scene;
 import soot.options.Options;
 import soot.jimple.*;
 import soot.jimple.internal.*;
+import soot.util.*;
+import java.io.*;
+import java.io.FileOutputStream;
 
 public class CacheInsertionPass {
     public static void setupSoot(String sourceDirectory, String[] className, String methodName) {
@@ -16,9 +19,15 @@ public class CacheInsertionPass {
         Options.v().set_allow_phantom_refs(true);
         Options.v().set_soot_classpath(sourceDirectory);
         Options.v().set_whole_program(true);
+        // Scene.v().loadNecessaryClasses();
+        System.out.println("soot classpath is " + Scene.v().getSootClassPath());
         for (String cls : className) {
             SootClass sc = Scene.v().loadClassAndSupport(cls);
             sc.setApplicationClass();
+            // Scene.v().addBasicClass(cls, 3);
+            // for (SootMethod m : sc.getMethods()) {
+            // m.retrieveActiveBody();
+            // }
         }
         Scene.v().loadNecessaryClasses();
     }
@@ -30,6 +39,7 @@ public class CacheInsertionPass {
         Value invokeCacheInit = Jimple.v().newSpecialInvokeExpr(cacheLocal,
                 cacheClass.getMethodByName("<init>").makeRef());
         Unit assg1 = Jimple.v().newAssignStmt(cacheLocal, invokeCacheInit);
+
         Value staticCache = Jimple.v().newStaticFieldRef(cls.getFieldByName("cache").makeRef());
         Unit assg2 = Jimple.v().newAssignStmt(staticCache, cacheLocal);
         SootMethod init = cls.getMethodByName("<clinit>");
@@ -54,6 +64,20 @@ public class CacheInsertionPass {
         body.validate();
     }
 
+    public static void writeNewClassFile(SootClass sClass) {
+        try {
+            String fileName = SourceLocator.v().getFileNameFor(sClass, Options.output_format_class);
+            OutputStream streamOut = new JasminOutputStream(new FileOutputStream(fileName));
+            PrintWriter writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
+            JasminClass jasminClass = new soot.jimple.JasminClass(sClass);
+            jasminClass.print(writerOut);
+            writerOut.flush();
+            streamOut.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
     public static void main(String[] args) {
         String sourceDirectory = args[0];
         String[] className = args[1].split(",");
@@ -67,7 +91,7 @@ public class CacheInsertionPass {
         mainClass.setApplicationClass();
 
         addCacheField(mainClass);
-        SootMethod sm = mainClass.getMethodByName("getAllContacts");
+        SootMethod sm = mainClass.getMethodByName(methodName);
         JimpleBody body = (JimpleBody) sm.retrieveActiveBody();
         Iterator it = body.getUnits().iterator();
         Value v = null;
@@ -77,14 +101,14 @@ public class CacheInsertionPass {
         while (it.hasNext()) {
             Unit ub = (Unit) it.next();
             // identify call site
-            if (ub.toString().contains("getAllContacts(org.springframework.http.HttpHeaders)")) {
+            if (ub.toString().contains("getInfoCall(java.lang.String)")) {
                 toreplace = ub;
                 JAssignStmt as = (JAssignStmt) ub;
                 v = as.getLeftOp();
             }
             // identify replacement point
             else if (ub.toString().contains(
-                    "staticinvoke <org.springframework.http.ResponseEntity: org.springframework.http.ResponseEntity ok(java.lang.Object)>")) {
+                    "return")) {
                 wrapRes = ub;
             }
         }
@@ -113,5 +137,6 @@ public class CacheInsertionPass {
         body = (JimpleBody) sm.retrieveActiveBody();
         System.out.println(body);
         body.validate();
+        // writeNewClassFile(mainClass);
     }
 }
