@@ -3,5 +3,7 @@ javac  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass.java
 # java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass /Users/bhakti/Documents/coursework/15745/train-ticket/ts-admin-basic-info-service/target/classes/adminbasic  AdminBasicInfoApplication main 
 # java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass /Users/bhakti/Documents/coursework/15745/train-ticket/ts-admin-basic-info-service/target/classes/adminbasic/controller  AdminBasicInfoController getAllContacts 
 # java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass soot-4.3.0-jar-with-dependencies.jar:.:/Users/bhakti/Documents/coursework/15745/train-ticket/ts-admin-basic-info-service/target/classes/adminbasic/service:/Users/bhakti/Documents/coursework/15745/train-ticket/ts-admin-basic-info-service/target/classes/adminbasic/controller  AdminBasicInfoController,AdminBasicInfoService,AdminBasicInfoService,Cache getAllContacts
+# 
+# java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass .:/Users/bhakti/Documents/coursework/15745/15745-TeamProject/utils:/Users/bhakti/Documents/coursework/15745/15745-TeamProject/demo2/target/classes/com/example/gateway Gateway,Cache getInfo
 
-java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass .:/Users/bhakti/Documents/coursework/15745/15745-TeamProject/Cache.class:/Users/bhakti/Documents/coursework/15745/15745-TeamProject/demo2/target/classes/com/example/gateway/Gateway.class  Gateway,Cache getInfo
+java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass /Users/bhakti/Documents/coursework/15745/15745-TeamProject/test Gateway,Cache getInfo

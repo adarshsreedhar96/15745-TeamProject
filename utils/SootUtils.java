@@ -30,6 +30,7 @@ public class SootUtils {
         SootMethod sm = mainClass.getMethodByName(methodName);
         JimpleBody body = (JimpleBody) sm.retrieveActiveBody();
         System.out.println(body);
+        System.out.println(body.getLocals());
     }
 
     public static void main(String[] args) {
