@@ -1,0 +1,249 @@
+public class Cache_LRU extends java.lang.Object
+{
+    private java.util.Map map;
+    private int size;
+    private final int CAPACITY;
+    private int hitCount;
+    private int missCount;
+
+    public void <init>()
+    {
+        int $i0;
+        java.util.HashMap $r1;
+        Cache_LRU r0;
+
+        r0 := @this: Cache_LRU;
+
+        specialinvoke r0.<java.lang.Object: void <init>()>();
+
+        r0.<Cache_LRU: int hitCount> = 0;
+
+        r0.<Cache_LRU: int missCount> = 0;
+
+        r0.<Cache_LRU: int CAPACITY> = 100;
+
+        $r1 = new java.util.HashMap;
+
+        $i0 = r0.<Cache_LRU: int CAPACITY>;
+
+        specialinvoke $r1.<java.util.HashMap: void <init>(int)>($i0);
+
+        r0.<Cache_LRU: java.util.Map map> = $r1;
+
+        return;
+    }
+
+    public void put(java.lang.Object, java.lang.Object)
+    {
+        Cache_LRU r0;
+        CacheEntry_LRU $r3;
+        java.util.Map $r1, $r5, $r6;
+        int $i0, $i1, $i2;
+        java.lang.Object r2, r4;
+
+        r0 := @this: Cache_LRU;
+
+        r2 := @parameter0: java.lang.Object;
+
+        r4 := @parameter1: java.lang.Object;
+
+        $r1 = r0.<Cache_LRU: java.util.Map map>;
+
+        $i0 = interfaceinvoke $r1.<java.util.Map: int size()>();
+
+        $i1 = r0.<Cache_LRU: int CAPACITY>;
+
+        if $i0 != $i1 goto label1;
+
+        virtualinvoke r0.<Cache_LRU: void evictEntry()>();
+
+     label1:
+        $r5 = r0.<Cache_LRU: java.util.Map map>;
+
+        $r3 = new CacheEntry_LRU;
+
+        specialinvoke $r3.<CacheEntry_LRU: void <init>(java.lang.Object)>(r4);
+
+        interfaceinvoke $r5.<java.util.Map: java.lang.Object put(java.lang.Object,java.lang.Object)>(r2, $r3);
+
+        $r6 = r0.<Cache_LRU: java.util.Map map>;
+
+        $i2 = interfaceinvoke $r6.<java.util.Map: int size()>();
+
+        r0.<Cache_LRU: int size> = $i2;
+
+        virtualinvoke r0.<Cache_LRU: void printCounts()>();
+
+        return;
+    }
+
+    public java.lang.Object get(java.lang.Object)
+    {
+        Cache_LRU r0;
+        CacheEntry_LRU r5;
+        java.util.Map $r2, $r3;
+        int $i0, $i1, $i2, $i3;
+        java.lang.Object r1, $r4, $r6;
+        boolean $z0;
+
+        r0 := @this: Cache_LRU;
+
+        r1 := @parameter0: java.lang.Object;
+
+        $r2 = r0.<Cache_LRU: java.util.Map map>;
+
+        $z0 = interfaceinvoke $r2.<java.util.Map: boolean containsKey(java.lang.Object)>(r1);
+
+        if $z0 != 0 goto label1;
+
+        $i2 = r0.<Cache_LRU: int missCount>;
+
+        $i3 = $i2 + 1;
+
+        r0.<Cache_LRU: int missCount> = $i3;
+
+        return null;
+
+     label1:
+        $i0 = r0.<Cache_LRU: int hitCount>;
+
+        $i1 = $i0 + 1;
+
+        r0.<Cache_LRU: int hitCount> = $i1;
+
+        $r3 = r0.<Cache_LRU: java.util.Map map>;
+
+        $r4 = interfaceinvoke $r3.<java.util.Map: java.lang.Object get(java.lang.Object)>(r1);
+
+        r5 = (CacheEntry_LRU) $r4;
+
+        virtualinvoke r0.<Cache_LRU: void resetTime(CacheEntry_LRU)>(r5);
+
+        virtualinvoke r0.<Cache_LRU: void printCounts()>();
+
+        $r6 = r5.<CacheEntry_LRU: java.lang.Object value>;
+
+        return $r6;
+    }
+
+    public void resetTime(CacheEntry_LRU)
+    {
+        Cache_LRU r2;
+        java.util.Date $r1;
+        CacheEntry_LRU r0;
+        long $l0;
+
+        r2 := @this: Cache_LRU;
+
+        r0 := @parameter0: CacheEntry_LRU;
+
+        $r1 = new java.util.Date;
+
+        specialinvoke $r1.<java.util.Date: void <init>()>();
+
+        $l0 = virtualinvoke $r1.<java.util.Date: long getTime()>();
+
+        r0.<CacheEntry_LRU: long timeSinceLastHit> = $l0;
+
+        return;
+    }
+
+    public void evictEntry()
+    {
+        Cache_LRU r1;
+        java.util.Date $r13;
+        long $l0, l2;
+        byte $b1;
+        java.util.Map $r2, $r5;
+        int $i3;
+        boolean $z0;
+        java.util.Map$Entry r7;
+        java.util.Iterator $r4;
+        java.util.Set $r3;
+        CacheEntry_LRU $r9, $r11;
+        java.lang.Object $r6, $r8, $r10, r12;
+
+        r1 := @this: Cache_LRU;
+
+        r12 = null;
+
+        $r13 = new java.util.Date;
+
+        specialinvoke $r13.<java.util.Date: void <init>()>();
+
+        l2 = virtualinvoke $r13.<java.util.Date: long getTime()>();
+
+        $r2 = r1.<Cache_LRU: java.util.Map map>;
+
+        $r3 = interfaceinvoke $r2.<java.util.Map: java.util.Set entrySet()>();
+
+        $r4 = interfaceinvoke $r3.<java.util.Set: java.util.Iterator iterator()>();
+
+     label1:
+        $z0 = interfaceinvoke $r4.<java.util.Iterator: boolean hasNext()>();
+
+        if $z0 == 0 goto label3;
+
+        $r6 = interfaceinvoke $r4.<java.util.Iterator: java.lang.Object next()>();
+
+        r7 = (java.util.Map$Entry) $r6;
+
+        $r8 = interfaceinvoke r7.<java.util.Map$Entry: java.lang.Object getValue()>();
+
+        $r9 = (CacheEntry_LRU) $r8;
+
+        $l0 = $r9.<CacheEntry_LRU: long timeSinceLastHit>;
+
+        $b1 = $l0 cmp l2;
+
+        $i3 = (int) $b1;
+
+        if $i3 >= 0 goto label2;
+
+        r12 = interfaceinvoke r7.<java.util.Map$Entry: java.lang.Object getKey()>();
+
+        $r10 = interfaceinvoke r7.<java.util.Map$Entry: java.lang.Object getValue()>();
+
+        $r11 = (CacheEntry_LRU) $r10;
+
+        l2 = $r11.<CacheEntry_LRU: long timeSinceLastHit>;
+
+     label2:
+        goto label1;
+
+     label3:
+        $r5 = r1.<Cache_LRU: java.util.Map map>;
+
+        interfaceinvoke $r5.<java.util.Map: java.lang.Object remove(java.lang.Object)>(r12);
+
+        return;
+    }
+
+    public void printCounts()
+    {
+        java.io.PrintStream $r1, $r3;
+        Cache_LRU r0;
+        int $i0, $i1;
+        java.lang.String $r2, $r4;
+
+        r0 := @this: Cache_LRU;
+
+        $r1 = <java.lang.System: java.io.PrintStream out>;
+
+        $i0 = r0.<Cache_LRU: int hitCount>;
+
+        $r2 = dynamicinvoke "makeConcatWithConstants" <java.lang.String (int)>($i0) <java.lang.invoke.StringConcatFactory: java.lang.invoke.CallSite makeConcatWithConstants(java.lang.invoke.MethodHandles$Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object[])>("hitcount: \u0001");
+
+        virtualinvoke $r1.<java.io.PrintStream: void println(java.lang.String)>($r2);
+
+        $r3 = <java.lang.System: java.io.PrintStream out>;
+
+        $i1 = r0.<Cache_LRU: int missCount>;
+
+        $r4 = dynamicinvoke "makeConcatWithConstants" <java.lang.String (int)>($i1) <java.lang.invoke.StringConcatFactory: java.lang.invoke.CallSite makeConcatWithConstants(java.lang.invoke.MethodHandles$Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object[])>("misscount: \u0001");
+
+        virtualinvoke $r3.<java.io.PrintStream: void println(java.lang.String)>($r4);
+
+        return;
+    }
+}
