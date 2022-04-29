@@ -53,7 +53,7 @@ and so if you are using multiple classes for a new caching implementation, all t
 3. See output under ```sootOutput/```
 #### Arguments -
 - ```./test```: Source directory used to set Soot classpath inside the pass
-- ```Gateway,Cache```: List of classes to load, their .class file must be present in the source directory .
+- ```Gateway,Cache_LRU,CacheEntry_LRU```: List of classes to load, their .class file must be present in the source directory .
 - ```-class```: Output type. Other supported type is ```-jimple``` to generate IR.
 
 ### Apply on dummy microservices
