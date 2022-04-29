@@ -17,14 +17,14 @@ public class Gateway {
 
     public static void main(String[] args) throws Exception {
         int dataStoreSize = 15; // change the datastore here as required
-        for(int i=1;i<dataStoreSize;i++){
+        for(int i=1;i<=dataStoreSize;i++){
             String value = "customer "+Integer.toString(i);
             data.put(Integer.toString(i), value);
         }
         String[] arr = new String[dataStoreSize];
 
-        for(int i=1;i<dataStoreSize;i++){
-            arr[i] = Integer.toString(i);
+        for(int i=1;i<=dataStoreSize;i++){
+            arr[i-1] = Integer.toString(i);
         }
 
         Object temp = null;
