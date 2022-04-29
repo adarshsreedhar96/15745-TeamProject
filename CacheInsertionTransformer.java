@@ -22,7 +22,7 @@ import java.util.*;
 public class CacheInsertionTransformer extends SceneTransformer {
 
     public static void addCacheField(SootClass cls) {
-        SootClass cacheClass = Scene.v().getSootClass("Cache");
+        SootClass cacheClass = Scene.v().getSootClass("Cache_LRU");
         Local cacheLocal = Jimple.v().newLocal("cacheLocal", cacheClass.getType());
          // clinit method in java contains static variable initializations
         SootMethod init = cls.getMethodByName("<clinit>");
@@ -61,7 +61,7 @@ public class CacheInsertionTransformer extends SceneTransformer {
         SootClass mainClass = Scene.v().getSootClass("Gateway");
         mainClass.setApplicationClass();
         // get our Cache class
-        SootClass cacheClass = Scene.v().getSootClass("Cache");
+        SootClass cacheClass = Scene.v().getSootClass("Cache_LRU");
         // Add a static cache field to targte class
         SootField f = Scene.v().makeSootField("cache", cacheClass.getType(),
                 Modifier.STATIC | Modifier.PUBLIC | Modifier.FINAL);

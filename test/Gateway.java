@@ -16,17 +16,22 @@ public class Gateway {
     }
 
     public static void main(String[] args) throws Exception {
-        data.put("a", "customer 1");
-        data.put("b", "customer 2");
-        data.put("c", "customer 3");
-        data.put("d", "customer 4");
-        data.put("e", "customer 5");
-        String[] arr = { "a", "b", "c", "d", "e" };
+        int dataStoreSize = 15; // change the datastore here as required
+        for(int i=1;i<dataStoreSize;i++){
+            String value = "customer "+Integer.toString(i);
+            data.put(Integer.toString(i), value);
+        }
+        String[] arr = new String[dataStoreSize];
+
+        for(int i=1;i<dataStoreSize;i++){
+            arr[i] = Integer.toString(i);
+        }
+
         Object temp = null;
         String temp2 = (String) temp;
         System.out.println(temp2);
         while (true) {
-            int rand = ThreadLocalRandom.current().nextInt(0, 5);
+            int rand = ThreadLocalRandom.current().nextInt(0, dataStoreSize);
             System.out.println(getInfo(arr[rand]));
             Thread.sleep(2000);
         }

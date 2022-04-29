@@ -1,7 +1,12 @@
 # 15745 Team Project
 ### Inserting Caches using Compiler Passes to Optimize RPCs between Microservices
 This repository includes a compiler-based cache optimization pass to replace RPC calls in a Microservice Architecture.
-Inserting Caches using Compiler Passes to Optimize RPCs between Microservices
+Inserting Caches using Compiler Passes to Optimize RPCs between Microservices.
+
+We have included three types of Caching Logic present, and either of them can be used by Soot to insert the Cache for the
+RPC calls, Least Recently Used, Least Frequently Used and Expiry-based Eviction Logic. Source is available in /test folder.
+Currently, their sizes are fixed at 100, change this as required. If a new cache/eviction policy is to be added, please add
+them in the /test folder.
 
 
 # Instructions to Install Soot
@@ -32,13 +37,19 @@ The soot jar is already present in the repo so it is not required to install.
 ### Apply on test/Gateway.java
 1. Compile all java classes -
 ```
-javac -cp ./test test/Gateway.java test/Cache.java // compile test classes
+javac -cp ./test test/Gateway.java test/Cache_LRU.java // compile test classes
 javac -cp soot-4.3.0-jar-with-dependencies.jar:. Main.java CacheInsertionTransformer.java // compile the pass
 ```
+Note that there are two places in the CacheInsertionTransformer source that also require the name of the Cache class, so
+if you want to add a new cache/eviction policy, please replace with the name of the class where getSootClass() method is called.
+
 2. Run the pass -
 ```
-java  -cp soot-4.3.0-jar-with-dependencies.jar:. Main ./test Gateway,Cache  -class
+java  -cp soot-4.3.0-jar-with-dependencies.jar:. Main ./test Gateway,Cache_LRU,CacheEntry_LRU  -class
 ```
+Note the use of two classes here, Cache_LRU and CacheEntry_LRU; These are both used for the Cache functionality (please see source code),
+and so if you are using multiple classes for a new caching implementation, all those classes need to be passed as arguments here.
+
 3. See output under ```sootOutput/```
 #### Arguments -
 - ```./test```: Source directory used to set Soot classpath inside the pass
@@ -65,6 +76,3 @@ https://www.brics.dk/SootGuide/
 # Train ticket 
 https://github.com/Willendless/train-ticket
 https://github.com/ovkulkarni/train-ticket
-
-
-java  -cp soot-4.3.0-jar-with-dependencies.jar:. CacheInsertionPass /Users/bhakti/Documents/coursework/15745/train-ticket/ts-admin-basic-info-service/target/classes/adminbasic/controller AdminBasicInfoController getAllContacts

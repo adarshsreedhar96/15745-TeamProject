@@ -25,7 +25,7 @@ public class Main {
         Options.v().set_allow_phantom_refs(true); // load phantom references
         Options.v().set_prepend_classpath(true); // prepend class path
         Options.v().set_src_prec(Options.src_prec_class); // process only .class
-        if(outputFmt == "-jimple"){
+        if(outputFmt.equals("-jimple")){
             Options.v().set_output_format(Options.output_format_jimple); // to output in jimple format
         } else{
             Options.v().set_output_format(Options.output_format_class);
